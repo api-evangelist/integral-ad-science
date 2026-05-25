@@ -1,0 +1,92 @@
+aid: integral-ad-science
+name: Integral Ad Science
+description: >-
+  Integral Ad Science (NASDAQ: IAS) is a New York-based global ad verification
+  and digital media measurement company. IAS provides technology and data that
+  measures the quality, viewability, ad fraud, brand safety and suitability,
+  contextual targeting, and attention performance of digital advertising across
+  CTV and video, the open web, social platforms, mobile and in-app, and digital
+  audio. Its products serve advertisers and agencies, publishers, and ad-tech
+  platforms with proprietary capabilities including Quality Impressions, Total
+  Visibility, Total Media Quality, Context Control, and the IAS Agent platform
+  for generative-AI-era brand safety. IAS does not publish a general-purpose
+  public developer API, OpenAPI specification, or self-serve SDK portal;
+  customer access to IAS data and measurement is delivered through enterprise
+  integrations with DSPs, SSPs, ad servers, social platforms, and walled
+  gardens, plus the IAS Signal reporting platform, header-bidding modules
+  (Prebid IAS RTD provider and bidder adapter), and partner connectors such as
+  the Salesforce Marketing Cloud Intelligence (Datorama) IAS connector. The
+  company's GitHub organization (github.com/integralads) is primarily internal
+  tooling, forks, and ad-tech ecosystem contributions rather than a documented
+  developer SDK surface.
+type: Index
+position: Provider
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Advertising
+  - Ad Verification
+  - Ad Measurement
+  - Brand Safety
+  - Ad Fraud
+  - Viewability
+  - Contextual Targeting
+  - Attention Measurement
+  - CTV
+  - Connected TV
+  - Video Advertising
+  - Programmatic
+  - Header Bidding
+  - Prebid
+  - AdTech
+  - Marketing
+  - Media Quality
+url: https://raw.githubusercontent.com/api-evangelist/integral-ad-science/refs/heads/main/apis.yml
+created: '2026-05-25'
+modified: '2026-05-25'
+specificationVersion: '0.20'
+apis: []
+common:
+  - type: Website
+    url: https://integralads.com
+  - type: Solutions
+    url: https://integralads.com/solutions/
+  - type: IASAgent
+    url: https://integralads.com/ias-agent/
+  - type: ResponsibleAI
+    url: https://integralads.com/responsible-ai/
+  - type: HelpCenter
+    url: https://helpcenter.integralplatform.com/
+  - type: TrustCenter
+    url: https://trust.integralads.com/en-US/home
+  - type: Platform
+    url: https://reporting.integralplatform.com/spa/login
+  - type: GitHub
+    url: https://github.com/integralads
+  - type: Prebid-RTD
+    url: https://docs.prebid.org/dev-docs/modules/iasRtdProvider.html
+  - type: Prebid-Bidder
+    url: https://docs.prebid.org/dev-docs/bidders/ias.html
+  - type: SalesforceConnector
+    url: https://help.salesforce.com/s/articleView?id=mktg.mcidp_data_streams_api_connect_integral.htm&language=en_US&type=5
+  - type: Newsroom
+    url: https://integralads.com/about-ias/newsroom/
+  - type: Blog
+    url: https://integralads.com/insider/
+  - type: About
+    url: https://integralads.com/about-ias/
+  - type: Careers
+    url: https://integralads.com/about-ias/careers/
+  - type: Investors
+    url: https://investors.integralads.com/
+  - type: Contact
+    url: https://integralads.com/contact-us/
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/integral-ad-science
+  - type: Twitter
+    url: https://twitter.com/integralads
+  - type: YouTube
+    url: https://www.youtube.com/@integralads
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
