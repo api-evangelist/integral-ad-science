@@ -9,16 +9,23 @@ description: >-
   audio. Its products serve advertisers and agencies, publishers, and ad-tech
   platforms with proprietary capabilities including Quality Impressions, Total
   Visibility, Total Media Quality, Context Control, and the IAS Agent platform
-  for generative-AI-era brand safety. IAS does not publish a general-purpose
-  public developer API, OpenAPI specification, or self-serve SDK portal;
-  customer access to IAS data and measurement is delivered through enterprise
-  integrations with DSPs, SSPs, ad servers, social platforms, and walled
-  gardens, plus the IAS Signal reporting platform, header-bidding modules
-  (Prebid IAS RTD provider and bidder adapter), and partner connectors such as
-  the Salesforce Marketing Cloud Intelligence (Datorama) IAS connector. The
-  company's GitHub organization (github.com/integralads) is primarily internal
-  tooling, forks, and ad-tech ecosystem contributions rather than a documented
-  developer SDK surface.
+  for generative-AI-era brand safety. IAS does operate a documented REST API
+  estate on data.integralplatform.com — the Reporting API (viewability, fraud
+  and brand safety metrics as asynchronous CSV report jobs), Segment API,
+  Custom Segment Retrieval, Partner Measurement, Multimedia Classification,
+  Gaming, ADmantX semantic analysis, Auto Tag Light and Automated Tagging — but
+  it publishes no OpenAPI specification, no self-serve credentials and, since
+  2025, no publicly readable API reference: the IAS Developers Center and every
+  developer article now render only for logged-in IAS Signal customers.
+  Authentication is OAuth 2.0 password grant with client credentials issued by
+  an IAS representative. Customer access to IAS data and measurement is
+  otherwise delivered through enterprise integrations with DSPs, SSPs, ad
+  servers, social platforms, and walled gardens, plus the IAS Signal reporting
+  platform, header-bidding modules (Prebid IAS RTD provider and bidder
+  adapter), and partner connectors such as the Salesforce Marketing Cloud
+  Intelligence (Datorama) IAS connector. The company's GitHub organization
+  (github.com/integralads) is primarily internal tooling, forks, and ad-tech
+  ecosystem contributions rather than a documented developer SDK surface.
 type: Index
 accessModel:
   pricing: unknown
@@ -54,12 +61,128 @@ tags:
   - Media Quality
 url: https://raw.githubusercontent.com/api-evangelist/integral-ad-science/refs/heads/main/apis.yml
 created: '2026-05-25'
-modified: '2026-05-25'
+modified: '2026-08-12'
 specificationVersion: '0.20'
-apis: []
+apis:
+  - name: IAS Reporting API
+    description: >-
+      RESTful API that exposes IAS viewability, fraud and brand safety metrics
+      for a customer's own business applications. Job-oriented: POST /report
+      submits a JSON ReportRequest describing teams, date range, report type,
+      metrics and dimensions; GET /report-status polls for completion; GET
+      /report-download retrieves the CSV. GET /report-dimensions/{teams,
+      mediapartners, campaigns, placements} enumerates the dimension values a
+      caller is entitled to. Thirteen report families are documented, including
+      Performance, Brand Suitability Failure, Facebook, YouTube, TikTok,
+      Collision, Geo Compliance, Domain Mismatch, Total Visibility and
+      Attention. Authentication is OAuth 2.0 password grant against
+      data.integralplatform.com/auth/uaa/oauth/token; client credentials are
+      issued by an IAS representative.
+    humanURL: https://helpcenter.integralplatform.com/article/developers-center
+    baseURL: https://data.integralplatform.com
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/integral-ad-science.png
+    tags:
+      - Ad Verification
+      - Ad Measurement
+      - Reporting
+      - Analytics
+      - Viewability
+      - Brand Safety
+      - Ad Fraud
+    properties:
+      - type: Documentation
+        url: https://helpcenter.integralplatform.com/article/developers-center
+      - type: Authentication
+        url: authentication/integral-ad-science-authentication.yml
+      - type: Conventions
+        url: conventions/integral-ad-science-conventions.yml
+      - type: ErrorCatalog
+        url: errors/integral-ad-science-problem-types.yml
+      - type: DataModel
+        url: data-model/integral-ad-science-data-model.yml
+      - type: RateLimits
+        url: rate-limits/integral-ad-science-rate-limits.yml
+    x-evidence:
+      verified: '2026-08-12'
+      docs_describe: >-
+        Base URL, OAuth 2.0 token URL, seven endpoints with methods, query
+        parameters, JSON request body properties and response shapes, all
+        published by IAS in its own Help Center article "Reporting API" dated
+        Jul 11, 2024.
+      docs_url_live: https://helpcenter.integralplatform.com/article/reporting-api
+      docs_url_live_status: 404
+      docs_url_read: >-
+        https://web.archive.org/web/20241015182444/https://helpcenter.integralplatform.com/article/reporting-api
+      docs_url_read_status: 200
+      endpoint_check:
+        url: https://data.integralplatform.com/report
+        method: GET
+        with_bearer_status: 401
+        with_bearer_body: 'invalid_token: Access token expired'
+        anonymous_status: 302
+        anonymous_location: /spa/login
+        conclusion: >-
+          Live OAuth 2.0 bearer-protected resource server returning the exact
+          error string IAS documents. The API is real and running; only its
+          reference is gated.
+      no_spec: >-
+        No OpenAPI/Swagger served. Probed /openapi.json, /openapi.yaml,
+        /swagger.json, /v1|/v2/openapi.json, /api-docs, /docs and /redoc against
+        data.integralplatform.com, api.integralplatform.com,
+        reporting.integralplatform.com, integralplatform.com,
+        helpcenter.integralplatform.com and integralads.com on 2026-08-12.
+    operations_documented:
+      - 'POST /report'
+      - 'GET /report-status?id={reportId}'
+      - 'GET /report-download?id={reportId}'
+      - 'GET /report-dimensions/teams'
+      - 'GET /report-dimensions/mediapartners?teams=&start=&end='
+      - 'GET /report-dimensions/campaigns?teams=&start=&end='
+      - 'GET /report-dimensions/placements?teams=&start=&end='
+      - 'POST /auth/uaa/oauth/token'
 common:
   - type: DomainSecurity
     url: security/integral-ad-science-domain-security.yml
+  - type: Authentication
+    url: authentication/integral-ad-science-authentication.yml
+  - type: Conventions
+    url: conventions/integral-ad-science-conventions.yml
+  - type: ErrorCatalog
+    url: errors/integral-ad-science-problem-types.yml
+  - type: DataModel
+    url: data-model/integral-ad-science-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/integral-ad-science-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/integral-ad-science-changelog.yml
+  - type: Plans
+    url: plans/integral-ad-science-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/integral-ad-science-rate-limits.yml
+  - type: Packages
+    url: packages/integral-ad-science-packages.yml
+  - type: Conformance
+    url: conformance/integral-ad-science-conformance.yml
+  - type: Compliance
+    url: security/integral-ad-science-trust-center.yml
+  - type: LLMsTxt
+    url: llms/integral-ad-science-llms.txt
+  - type: DeveloperPortal
+    url: https://helpcenter.integralplatform.com/article/developers-center
+  - type: ReleaseNotes
+    url: https://helpcenter.integralplatform.com/topics/release-notes
+  - type: Support
+    url: https://helpcenter.integralplatform.com/
+  - type: TermsOfService
+    url: https://integralads.com/ias-legal-portal/ias-signal-platform-authorized-user-terms-of-service/
+  - type: PrivacyPolicy
+    url: https://integralads.com/ias-privacy-data-management/policies/privacy-policy/
+  - type: Legal
+    url: https://integralads.com/ias-legal-portal/
+  - type: Login
+    url: https://reporting.integralplatform.com/spa/login
+  - type: GitHubOrganization
+    url: https://github.com/integralads
   - type: Website
     url: https://integralads.com
   - type: Solutions
@@ -74,8 +197,6 @@ common:
     url: https://trust.integralads.com/en-US/home
   - type: Platform
     url: https://reporting.integralplatform.com/spa/login
-  - type: GitHub
-    url: https://github.com/integralads
   - type: Prebid-RTD
     url: https://docs.prebid.org/dev-docs/modules/iasRtdProvider.html
   - type: Prebid-Bidder
@@ -103,3 +224,30 @@ common:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-12'
+  status: enriched
+  artifacts_added: 13
+  pass: local-v1
+x-coverage:
+  state: gated
+  reason: customer-only-docs
+  detail: >-
+    Integral Ad Science runs a real, live REST API estate — data.integralplatform.com
+    answers a bearer request with the documented OAuth error "invalid_token: Access
+    token expired" — but between 2024 and 2026 IAS moved every developer article
+    (reporting-api, segment-api-guide, custom-segment-retrieval-api-guide,
+    multimedia-classification-api, gaming-api, admantx-api-guide, auto-tag-light-api,
+    partner-measurement-api-implementation-guide) behind the IAS Signal customer
+    login, leaving only a Developers Center index page that renders with
+    requiredRoles ["loggedIn"] and serves an empty body to anonymous clients.
+  evidence:
+    - url: https://helpcenter.integralplatform.com/article/developers-center
+      status: 200
+    - url: https://helpcenter.integralplatform.com/article/reporting-api
+      status: 404
+    - url: https://data.integralplatform.com/report
+      status: 401
+    - url: https://data.integralplatform.com/.well-known/oauth-authorization-server
+      status: 404
+  checked: '2026-08-12'

@@ -1,0 +1,82 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://helpcenter.integralplatform.com/topics/release-notes and
+  https://helpcenter.integralplatform.com/sitemap.xml (probed 2026-08-12), plus
+  https://web.archive.org/web/20241015182444/https://helpcenter.integralplatform.com/article/reporting-api
+note: >-
+  Integral Ad Science ships a dated, monthly platform release-notes series but
+  publishes no API versioning policy, no deprecation policy and no status page.
+  Everything below is either a URL that returned 200 or a recorded absence.
+versioning:
+  api_versioning: false
+  scheme: null
+  detail: >-
+    The Reporting API carries no version segment or version header (/report,
+    /report-status, /report-download, /report-dimensions/*). The PLATFORM is
+    versioned YYYY.MM ("IAS version 2025.09") in the release notes, but that
+    version does not appear in any API path, header or media type.
+  platform_release_scheme: 'YYYY.MM'
+deprecation_policy:
+  published: false
+  url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  detail: >-
+    No deprecation or sunset policy is published anywhere on integralads.com or
+    the IAS Help Center, and no RFC 8594 Sunset/Deprecation headers were
+    observed on data.integralplatform.com.
+  observed_deprecation: >-
+    IAS's own Developers' Center landing page listed both a "Reporting API" and
+    a separate "Reporting Service API" with identical descriptions — a
+    superseded/successor pair shipped with no deprecation notice, no sunset date
+    and no migration guide.
+status_page:
+  published: false
+  url: null
+  evidence:
+    - url: https://status.integralads.com
+      status: 000
+      note: does not resolve
+    - url: https://status.integralplatform.com
+      status: 000
+      note: does not resolve
+  detail: >-
+    No public status or uptime page exists for the IAS Signal platform or the
+    data.integralplatform.com API host. Incident communication is via the
+    account team / "Create a Case" support flow.
+sla:
+  published: false
+  url: null
+  detail: No public SLA, uptime target or support-response commitment.
+support:
+  channel: Case-based support through the IAS Help Center ("Create a Case")
+  url: https://helpcenter.integralplatform.com/
+  self_serve: false
+release_notes:
+  published: true
+  url: https://helpcenter.integralplatform.com/topics/release-notes
+  cadence: monthly
+  scheme: 'IAS version YYYY.MM'
+  titles_public: true
+  bodies_public: false
+  detail: >-
+    Article titles and URLs are publicly listed in the help-center sitemap and
+    the anonymous <title> tag, but every release-note body renders with
+    requiredRoles ["loggedIn"] and is served empty to anonymous clients.
+  see: changelog/integral-ad-science-changelog.yml
+deprecated_operations: []
+documentation_availability:
+  developer_center_url: https://helpcenter.integralplatform.com/article/developers-center
+  developer_center_status: 200
+  developer_center_gated: true
+  detail: >-
+    Every IAS developer article that was publicly readable in 2024
+    (reporting-api, segment-api-guide, custom-segment-retrieval-api-guide,
+    multimedia-classification-api, gaming-api, admantx-api-guide,
+    auto-tag-light-api, partner-measurement-api-implementation-guide,
+    ias-developers-center-landing-page) now returns 404 to anonymous requests.
+    Only the Developers Center index remains at 200, and it renders its body
+    only for logged-in users. This is a documented REGRESSION in public
+    availability between 2024 and 2026, not an absence of documentation.

@@ -1,0 +1,92 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://helpcenter.integralplatform.com/article/reporting-api — Integral Ad
+  Science Help Center, "Reporting API", document dated Jul 11, 2024. The live
+  article now returns 404 to anonymous requests (IAS moved its developer
+  articles behind the IAS Signal login in 2025); the version read here is IAS's
+  own published copy preserved at
+  https://web.archive.org/web/20241015182444/https://helpcenter.integralplatform.com/article/reporting-api
+docs: https://helpcenter.integralplatform.com/article/developers-center
+note: >-
+  Derived from IAS's own documentation, then confirmed against the live API
+  host. Not derived from an OpenAPI — Integral Ad Science publishes no
+  machine-readable specification for any of its APIs.
+x-evidence:
+  fetched: '2026-08-12'
+  live_probe:
+    url: https://data.integralplatform.com/report
+    method: GET
+    request_header: 'Authorization: Bearer <invalid>'
+    http_status: 401
+    response_body: 'invalid_token: Access token expired'
+    conclusion: >-
+      The host is a live OAuth 2.0 bearer-protected resource server and returns
+      the exact error string IAS documents. Without an Authorization header the
+      same path answers 302 to /spa/login.
+  docs_probe:
+    url: https://helpcenter.integralplatform.com/article/developers-center
+    http_status: 200
+    finding: >-
+      Page renders with requiredRoles ["loggedIn"]; the anonymous response
+      carries the title and meta description ("These guides are for a technical
+      audience who want to use the various IAS APIs and, or integrations") but
+      no article body.
+security_schemes:
+  - key: iasOAuth2Password
+    type: oauth2
+    flow: password
+    description: >-
+      OAuth 2.0 Resource Owner Password Credentials grant (RFC 6749 §4.3). The
+      username and password are the customer's IAS Signal platform credentials.
+      The client_id / client_secret pair is issued out-of-band by an IAS
+      representative — there is no self-serve client registration.
+    token_url: https://data.integralplatform.com/auth/uaa/oauth/token
+    authorization_url: null
+    client_authentication: HTTP Basic (client_id:client_secret)
+    grant_parameters:
+      - grant_type=password
+      - username
+      - password
+    token_response_field: access_token
+    scopes: []
+    scopes_documented: false
+  - key: iasBearer
+    type: http
+    scheme: bearer
+    bearer_format: JWT (UAA-issued access token)
+    description: >-
+      The access_token returned by the token endpoint is presented as
+      "Authorization: Bearer <token>" on every Reporting API request. IAS
+      documents token reuse across requests until expiry.
+    in: header
+    parameter_name: Authorization
+summary:
+  auth_types:
+    - oauth2
+    - http-bearer
+  oauth2_flows:
+    - password
+  api_key_locations: []
+  mutual_tls: false
+  openid_connect: false
+  self_serve_credentials: false
+  credential_issuance: >-
+    Sales/account-managed. IAS documents "Coordinate with your IAS
+    representative to obtain a client ID and client secret."
+token_lifecycle:
+  expiry_signal:
+    error: invalid_token
+    error_description: Access token expired
+    http_status: 401
+  refresh_documented: false
+  revocation_documented: false
+  rotation_documented: false
+gaps:
+  - No /.well-known/oauth-authorization-server or /.well-known/openid-configuration
+    is served on data.integralplatform.com (both probed 404, 2026-08-12), so the
+    authorization server is not machine-discoverable.
+  - No scopes are documented; authorization is enforced per IAS "team ID"
+    membership rather than by OAuth scope.
+  - The password grant is deprecated by OAuth 2.0 Security Best Current Practice
+    (RFC 9700) and omitted from OAuth 2.1; IAS documents no alternative flow.

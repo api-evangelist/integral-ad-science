@@ -1,0 +1,83 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://helpcenter.integralplatform.com/topics/release-notes and the
+  enumerable article list in https://helpcenter.integralplatform.com/sitemap.xml
+  (probed 2026-08-12)
+url: https://helpcenter.integralplatform.com/topics/release-notes
+note: >-
+  Integral Ad Science publishes a dated monthly release-notes series for the IAS
+  Signal platform. The SERIES is public — every article is listed in the
+  help-center sitemap and returns its title to an anonymous request — but every
+  BODY renders with requiredRoles ["loggedIn"] and is served empty without a
+  customer session. This artifact therefore records the changelog's existence,
+  scheme and dated index; the contents of each entry could not be read and no
+  highlights have been invented.
+scheme:
+  type: calendar
+  pattern: 'IAS version YYYY.MM'
+  cadence: monthly
+  applies_to: IAS Signal platform (not the API contract — the APIs are unversioned)
+current_version: '2025.09'
+current_version_note: >-
+  Latest publicly enumerable release note. Slugs following the same pattern for
+  2025.10 through 2026.08 all return 404 to anonymous requests, so either the
+  series moved fully behind the login after 2025.09 or later entries are not
+  indexed publicly. Recorded as observed, not inferred.
+bodies_public: false
+titles_public: true
+machine_readable_feed: false
+feed_url: null
+entries:
+  - version: '2025.09'
+    url: https://helpcenter.integralplatform.com/article/ias-version-2025-09-release-notes
+    status: 200
+    body_readable: false
+    breaking: unknown
+    additions: unknown
+  - version: '2025.08'
+    url: https://helpcenter.integralplatform.com/article/ias-version-2025-08-release-notes
+    status: 200
+    body_readable: false
+    breaking: unknown
+    additions: unknown
+  - version: '2025.07'
+    url: https://helpcenter.integralplatform.com/article/ias-version-2025-07-release-notes
+    status: 200
+    body_readable: false
+    breaking: unknown
+    additions: unknown
+  - version: '2025.06'
+    url: https://helpcenter.integralplatform.com/article/ias-version-2025-06-release-notes
+    status: 200
+    body_readable: false
+    breaking: unknown
+    additions: unknown
+  - version: '2025.04'
+    url: https://helpcenter.integralplatform.com/article/ias-version-2025-04-release-notes
+    status: 200
+    body_readable: false
+    breaking: unknown
+    additions: unknown
+  - version: '2025.02'
+    url: https://helpcenter.integralplatform.com/article/ias-version-2025-02-release-notes
+    status: 200
+    body_readable: false
+    breaking: unknown
+    additions: unknown
+entry_count_enumerated: 30
+entry_range: '2022.10 through 2025.09'
+secondary_change_surfaces:
+  - name: IAS Insider (product + company blog)
+    url: https://integralads.com/insider/
+    machine_readable: true
+    note: RSS-backed; carries product launch announcements but is marketing, not
+      a change log.
+  - name: IAS Newsroom
+    url: https://integralads.com/about-ias/newsroom/
+    machine_readable: true
+gaps:
+  - No API-specific change log — the release notes cover the IAS Signal UI and
+    product estate, not the Reporting API contract.
+  - No RSS/Atom/JSON feed for the release-notes series.
+  - No breaking-change flagging, no migration notes, no per-entry version diff.

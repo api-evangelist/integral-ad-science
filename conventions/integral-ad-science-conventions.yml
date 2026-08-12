@@ -1,0 +1,150 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://web.archive.org/web/20241015182444/https://helpcenter.integralplatform.com/article/reporting-api
+  (IAS Help Center, "Reporting API", Jul 11, 2024) plus live probes of
+  https://data.integralplatform.com on 2026-08-12
+note: >-
+  Cross-cutting runtime semantics for the IAS Reporting API, the only Integral
+  Ad Science API whose full request/response contract is publicly documented.
+  Every field below is either quoted from IAS's own documentation or observed on
+  a live request; anything IAS does not document is recorded as
+  documented: false rather than guessed.
+api: IAS Reporting API
+base_url: https://data.integralplatform.com
+
+authentication:
+  style: oauth2-password-grant + bearer
+  header: 'Authorization: Bearer <access_token>'
+  token_url: https://data.integralplatform.com/auth/uaa/oauth/token
+  see: authentication/integral-ad-science-authentication.yml
+
+idempotency:
+  supported: false
+  documented: false
+  header: null
+  note: >-
+    IAS documents no idempotency key, no request-replay semantics and no
+    deduplication window. The single mutating operation (POST /report) creates a
+    new report job on every call and returns a fresh integer id, so retries
+    produce duplicate jobs.
+
+pagination:
+  supported: false
+  documented: false
+  style: null
+  note: >-
+    No paged collection endpoints are documented. Report output is not paged —
+    it is materialised asynchronously as a whole CSV file and retrieved in one
+    GET from /report-download. The dimension lookups
+    (/report-dimensions/{teams,mediapartners,campaigns,placements}) return
+    unbounded JSON arrays with no cursor, limit, offset or link header.
+
+async_job_pattern:
+  documented: true
+  description: >-
+    The Reporting API is job-oriented rather than request/response. This is the
+    dominant convention of the API and the one an agent must implement.
+  steps:
+    - step: submit
+      operation: POST /report
+      request: application/json ReportRequest body
+      response: '{ "id": <int64>, "status": "SUBMITTED" }'
+    - step: poll
+      operation: GET /report-status?id={reportId}
+      response: '{ "id": <int64>, "status": "<state>" }'
+      poll_interval_documented: false
+    - step: retrieve
+      operation: GET /report-download?id={reportId}
+      response: report body in the fileType requested (CSV)
+  states:
+    - SUBMITTED
+    - PENDING
+    - READY
+    - NO_RESULTS
+    - ERROR
+  terminal_states:
+    - READY
+    - NO_RESULTS
+    - ERROR
+  callback_or_webhook: false
+  note: >-
+    IAS publishes no completion webhook or callback for report jobs — polling
+    /report-status is the only documented way to learn a report is ready.
+
+content_types:
+  request: application/json
+  response_json: application/json
+  response_report: text/csv
+  output_formats_documented:
+    - CSV
+
+field_conventions:
+  naming: lowerCamelCase in JSON bodies (reportName, reportTeamIds, reportStart,
+    reportEnd, reportType, fileType)
+  date_format_body: 'YYYY-MM-DD (e.g. "reportStart": "2021-03-31")'
+  date_format_query: 'YYYY.MM.DD (e.g. start=2021.03.31) — note the dotted form
+    differs from the hyphenated form used in JSON bodies'
+  identifiers: integer(int64) — report id, team id
+  enumerations: SCREAMING_SNAKE_CASE (reportType IAS_PERFORMANCE), UPPER_CASE
+    (status SUBMITTED/READY), human-readable strings for metrics and dimensions
+    ("Total tracked ads", "Campaigns")
+  metadata_field: false
+  field_expansion: false
+  sparse_fieldsets: false
+
+authorization_model:
+  unit: team
+  parameter: reportTeamIds
+  note: >-
+    "IAS only shows data for the requested team ID. If you attempt to get data
+    for teams you don't have access to, the report creation fails." Authorization
+    is team-membership based, not OAuth scope based.
+
+error_envelope:
+  format: vendor
+  rfc9457: false
+  observed:
+    - http_status: 401
+      body: 'invalid_token: Access token expired'
+      content_type: text/plain
+      observed_live: '2026-08-12'
+  note: >-
+    The only error shape IAS documents or that can be observed anonymously is the
+    plain-text UAA token error. There is no application/problem+json, no error
+    code catalogue and no machine-readable error envelope in the published docs.
+  see: errors/integral-ad-science-problem-types.yml
+
+rate_limit_signaling:
+  documented: false
+  headers_observed: []
+  status_on_exhaustion: null
+  see: rate-limits/integral-ad-science-rate-limits.yml
+
+request_id_tracing:
+  documented: false
+  header: null
+  note: No correlation/request-id header is documented, and none is returned on
+    the anonymous 401.
+
+versioning:
+  api_version_in_path: false
+  api_version_in_header: false
+  scheme: null
+  note: >-
+    The Reporting API carries no version segment (paths are /report,
+    /report-status, /report-download, /report-dimensions/*). IAS versions the
+    Signal PLATFORM on a YYYY.MM release-note cadence, but does not version the
+    API contract.
+  see: lifecycle/integral-ad-science-lifecycle.yml
+
+transport_security:
+  https_only: true
+  hsts: 'max-age=31536000 ; includeSubDomains (observed on
+    data.integralplatform.com, 2026-08-12)'
+  observed_headers:
+    - strict-transport-security
+    - x-frame-options: SAMEORIGIN
+    - content-security-policy: "frame-ancestors 'self'"
+    - referrer-policy: same-origin
+    - x-xss-protection: '0'

@@ -1,0 +1,52 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://web.archive.org/web/20241015182444/https://helpcenter.integralplatform.com/article/reporting-api
+  (IAS Help Center, "Reporting API", Jul 11, 2024) plus live probes of
+  https://data.integralplatform.com on 2026-08-12
+limit_count: 0
+published: false
+note: >-
+  Integral Ad Science documents no rate limits, no quotas and no throttling
+  behaviour for the Reporting API, and returns no rate-limit headers on the
+  responses observable without credentials. An agent calling this API has no
+  runtime signal telling it how hard it may poll — which matters more than usual
+  here, because the API is job-oriented and the ONLY documented way to learn a
+  report is finished is to poll GET /report-status in a loop with no documented
+  interval.
+limits: []
+response_headers:
+  observed: []
+  ratelimit_standard: false
+  x_ratelimit: false
+  retry_after: false
+  probe:
+    url: https://data.integralplatform.com/report
+    method: GET
+    http_status: 401
+    headers_returned:
+      - date
+      - content-length
+      - cache-control
+      - pragma
+      - expires
+      - strict-transport-security
+      - x-frame-options
+      - x-xss-protection
+      - content-security-policy
+      - referrer-policy
+      - set-cookie
+    note: no RateLimit-*, X-RateLimit-* or Retry-After header present
+status_on_exhaustion: null
+polling_guidance:
+  documented: false
+  recommended_interval: null
+  note: >-
+    IAS documents the SUBMITTED -> PENDING -> READY polling pattern but not a
+    poll interval, a maximum poll rate, or a job-concurrency cap.
+concurrency_limits:
+  documented: false
+report_size_limits:
+  documented: false
+  note: IAS documents metric minimum thresholds for statistical validity in the
+    help center, but those are data-quality floors, not API quotas.

@@ -1,0 +1,102 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  Registry searches against registry.npmjs.org, pypi.org, search.maven.org and
+  the github.com/integralads organisation, run 2026-08-12
+package_count: 0
+official_sdk_count: 0
+packages: []
+note: >-
+  Integral Ad Science publishes NO first-party client library on any public
+  package registry. No `SDKs` pointer is emitted in apis.yml, because there is
+  no official SDK to point at. Recorded as a measured absence, with the
+  registries and names actually queried listed below so a later round does not
+  repeat the search blind.
+registries_searched:
+  - registry: npm
+    queries:
+      - text=integralads
+      - text=adsafeprotected
+      - text=integral ad science
+      - text=ias sdk viewability
+      - text=ias video sdk
+    direct_names_probed:
+      - name: '@integralads/sdk'
+        status: 404
+      - name: ias-web-sdk
+        status: 404
+      - name: iassdk
+        status: 404
+      - name: integral-ad-science
+        status: 404
+      - name: ias-viewability
+        status: 404
+    result: no IAS-published package
+  - registry: pypi
+    direct_names_probed:
+      - name: integral-ad-science
+        status: 404
+      - name: ias-api
+        status: 404
+      - name: iasfe
+        status: 404
+    result: no IAS-published package
+  - registry: maven-central
+    queries:
+      - 'g:com.integralads'
+    result: 0 artifacts
+  - registry: github
+    org: https://github.com/integralads
+    public_repo_count: 20
+    result: >-
+      No client library or SDK. The organisation is internal Jenkins/Groovy
+      tooling (jervis, jenkins-bootstrap-shared), security utilities
+      (dependency-deep-scan-utilities) and forks of third-party projects
+      (celery, survival, aerospike-client-python, Prebid.js). 16 of the 20
+      repositories are archived; the only actively pushed repositories are
+      Jenkins infrastructure.
+first_party_code_shipped_inside_third_party_packages:
+  - name: prebid.js
+    registry: npm
+    url: https://www.npmjs.com/package/prebid.js
+    version: 11.29.0
+    published: '2026-08-06'
+    official: false
+    official_note: >-
+      The PACKAGE is published by the Prebid community, not by IAS. It contains
+      two modules IAS authors and maintains — the IAS Real-Time Data provider
+      (iasRtdProvider) and the IAS bidder adapter — so IAS integration code does
+      reach npm, but IAS ships no package of its own and this entry must not be
+      counted as an IAS SDK.
+    modules:
+      - name: iasRtdProvider
+        docs: https://docs.prebid.org/dev-docs/modules/iasRtdProvider.html
+      - name: ias (bid adapter)
+        docs: https://docs.prebid.org/dev-docs/bidders/ias.html
+distribution_channels_without_a_registry:
+  - name: IAS Web Video SDK
+    registry: none
+    distribution: >-
+      Delivered to contracted publishers/partners as a hosted JavaScript library
+      referenced from IAS domains, documented in login-gated help-center
+      articles (web-video-sdk-guide-v3-7). Not published to npm, not pinned in
+      any public URL, and no public version metadata endpoint exists.
+    version: null
+    published: null
+    version_note: >-
+      checked, nothing to record — there is no registry entry and no public
+      pinned URL from which a version could be read.
+  - name: IAS mobile / OM SDK integration libraries
+    registry: none
+    distribution: >-
+      Distributed under partner agreement (IAB Tech Lab Open Measurement SDK
+      adapters, IMA/Sizmek/Brightcove/FreeWheel player adapters). No CocoaPods,
+      Maven Central or npm listing found.
+    version: null
+    published: null
+    version_note: checked, nothing to record — no public registry entry.
+gaps:
+  - No official SDK in any language on any public registry.
+  - No version or release-date signal is publicly available for the IAS web
+    video SDK or the mobile adapters, so SDK decay cannot be measured for this
+    provider at all.

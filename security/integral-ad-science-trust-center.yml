@@ -1,0 +1,96 @@
+generated: '2026-08-12'
+method: searched
+source: https://trust.integralads.com/en-US/home
+trust_center:
+  url: https://trust.integralads.com/en-US/home
+  status: 200
+  platform: TrustArc Trust Center
+  sections:
+    - name: Privacy
+      url: https://trust.integralads.com/en-US/privacy
+      status: 200
+    - name: Security
+      url: https://trust.integralads.com/en-US/security
+      status: 200
+    - name: Compliance
+      url: https://trust.integralads.com/en-US/compliance
+      status: 200
+    - name: Responsible AI
+      url: https://trust.integralads.com/en-US/responsible-ai
+      status: 200
+certifications:
+  - name: SOC 2 Type 2
+    body: AICPA
+    scope: Information security controls
+    status: maintained
+    evidence: >-
+      "an annual assessment conducted by a qualified third-party auditor, in
+      accordance with the American Institute of Certified Public Accountants
+      (AICPA) Service Organization Control (SOC) 2 Type 2 controls and
+      standards"
+    document_public: false
+    document_access: request via trust center
+    source: https://trust.integralads.com/en-US/security
+  - name: ISO/IEC 27001:2022
+    body: ISO/IEC
+    scope: Information Security Management System
+    status: certified
+    evidence: >-
+      "Conformity with ISO/IEC 27001:2022 demonstrates that an organization has
+      established a system to manage risks related to the security of data it
+      owns or handles"
+    document_public: true
+    document_name: ISO 27001 Certificate
+    source: https://trust.integralads.com/en-US/security
+  - name: ISMS Statement of Applicability
+    body: self-published (aligned to ISO/IEC 27001)
+    scope: Control set and oversight mechanisms
+    status: published
+    document_public: false
+    document_access: request via trust center
+    source: https://trust.integralads.com/en-US/security
+accreditations:
+  - name: Media Rating Council (MRC) accreditation
+    body: Media Rating Council
+    scope: >-
+      Core Ad Verification Service — Tracked Ads (Display and Video, incl. CTV),
+      Rendered Ad Impressions (Display and Video, incl. CTV), Viewable Ad
+      Impressions and Viewability (Display and Video, incl. CTV), Ad
+      Verification Processes (property level), Sophisticated Invalid Traffic
+      detection/filtration (incl. CTV), SSAI Video Metrics, Pre-bid Viewability,
+      Pre-bid IVT detection; plus platform-specific accreditations for Facebook
+      and Google ADH (YouTube).
+    status: maintained
+    source: https://trust.integralads.com/en-US/compliance
+    note: >-
+      The MRC accreditation is the accreditation that actually matters in ad
+      verification — it is a measurement-methodology audit, not an IT-security
+      certification, and it is the industry's substitute for a machine-readable
+      conformance claim.
+  - name: MRC accreditation for third-party measurement on Amazon properties
+    body: Media Rating Council
+    status: awarded
+    date: '2025-11-18'
+    source: https://trust.integralads.com/en-US/home
+security_practices_published:
+  network: [Security Monitoring & Logging, Firewall, Encryption, VPN, Auditing]
+  data: [Backups, Classification, Retention & Disposal, Encryption-in-transit]
+  secure_development: [Change Management, Acceptance Testing, Security
+      Requirements]
+  access_control: [Access Review, Logging, Authentication]
+  corporate: [Asset Management, Acceptable Use, Incident Response, Penetration
+      Testing, Security Operations Center, HR Security, Employee Training,
+      Business Continuity/Disaster Recovery]
+  source: https://trust.integralads.com/en-US/security
+esg:
+  published: true
+  name: ESG Portal / Responsibility Report
+  source: https://trust.integralads.com/en-US/compliance
+gaps:
+  - No SOC 2 report or ISMS Statement of Applicability is downloadable without
+    submitting a request form.
+  - No PCI DSS, HIPAA or FedRAMP claim (none expected for this business).
+  - >-
+    The trust center is fully client-rendered on a TrustArc host that answers
+    400 "Bad Request: Suspicious URL" for /.well-known/* and /sitemap.xml, so
+    none of this is machine-discoverable.

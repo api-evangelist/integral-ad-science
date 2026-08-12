@@ -1,0 +1,186 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  Derived from the request/response shapes published in
+  https://web.archive.org/web/20241015182444/https://helpcenter.integralplatform.com/article/reporting-api
+  (IAS Help Center, "Reporting API", Jul 11, 2024). Not derived from an OpenAPI —
+  Integral Ad Science publishes none.
+note: >-
+  The IAS Reporting API is an analytics job API, not a CRUD resource API. The
+  entity graph below is the reporting model IAS documents: a Report job over a
+  set of Teams, sliced by Dimensions and populated with Metrics. Only fields IAS
+  names explicitly are listed.
+api: IAS Reporting API
+entities:
+  - name: Report
+    description: >-
+      An asynchronous report job. Created by POST /report from a ReportRequest
+      JSON document, polled by GET /report-status, retrieved by
+      GET /report-download.
+    identifier:
+      field: id
+      type: integer(int64)
+      prefix: null
+    fields:
+      - name: id
+        type: integer(int64)
+        description: Job identifier used for status and download.
+      - name: status
+        type: string
+        enum: [SUBMITTED, PENDING, READY, NO_RESULTS, ERROR]
+    operations:
+      - 'POST /report'
+      - 'GET /report-status?id={reportId}'
+      - 'GET /report-download?id={reportId}'
+  - name: ReportRequest
+    description: The JSON input document that defines a report.
+    identifier: null
+    fields:
+      - name: reportName
+        type: string
+        required: true
+      - name: reportTeamIds
+        type: array(integer)
+        required: true
+        references: Team.id
+      - name: reportStart
+        type: string (date, YYYY-MM-DD)
+        required: true
+      - name: reportEnd
+        type: string (date, YYYY-MM-DD)
+        required: true
+      - name: reportType
+        type: string
+        required: true
+        enum_documented:
+          - IAS_PERFORMANCE
+        note: >-
+          IAS documents thirteen report families (Performance, Brand Suitability
+          Failure, Facebook, YouTube, YouTube Contextual Suitability, YouTube
+          Content Level Contextual Suitability, Collision, Geo Compliance,
+          GroupM Fully On Screen, Domain Mismatch, TikTok, Total Visibility,
+          Attention) but publishes the literal enum value only for
+          IAS_PERFORMANCE, so the remaining twelve constants are not recorded
+          here.
+      - name: fileType
+        type: string
+        required: true
+        enum: [CSV]
+      - name: metrics
+        type: array(string)
+        required: true
+        note: Human-readable metric names, e.g. "Total tracked ads", "Invalid
+          Traffic", "Not Viewable Ads".
+      - name: dimensions
+        type: array(string)
+        required: false
+        note: e.g. "Campaigns", "Teams", "Domains", "Device", "DSP".
+      - name: dimensionFilters
+        type: array(object)
+        required: false
+      - name: parameters
+        type: array(object {key, value})
+        required: false
+      - name: ultimateAdvertiserIds
+        type: array(integer)
+        required: false
+      - name: customMetrics
+        type: array(string)
+        required: false
+      - name: thresholdCondition
+        type: object
+        required: false
+  - name: Team
+    description: >-
+      The tenancy and authorization unit. A caller may only report on teams its
+      credentials grant access to.
+    identifier:
+      field: id
+      type: integer(int64)
+    fields:
+      - name: id
+        type: integer(int64)
+      - name: name
+        type: string
+      - name: status
+        type: string
+        enum: [ACTIVE, INACTIVE]
+    operations:
+      - 'GET /report-dimensions/teams'
+  - name: MediaPartner
+    description: A media partner dimension value, scoped to teams and a date range.
+    identifier:
+      field: id
+      type: integer(int64)
+    operations:
+      - 'GET /report-dimensions/mediapartners?teams=&start=&end='
+  - name: Campaign
+    description: A campaign dimension value, scoped to teams and a date range.
+    identifier:
+      field: id
+      type: integer(int64)
+    operations:
+      - 'GET /report-dimensions/campaigns?teams=&start=&end='
+  - name: Placement
+    description: A placement dimension value, scoped to teams and a date range.
+    identifier:
+      field: id
+      type: integer(int64)
+    operations:
+      - 'GET /report-dimensions/placements?teams=&start=&end='
+relationships:
+  - from: Report
+    to: ReportRequest
+    type: has_one
+    via: request body
+  - from: ReportRequest
+    to: Team
+    type: has_many
+    via: reportTeamIds
+  - from: MediaPartner
+    to: Team
+    type: belongs_to
+    via: teams query parameter
+  - from: Campaign
+    to: Team
+    type: belongs_to
+    via: teams query parameter
+  - from: Placement
+    to: Team
+    type: belongs_to
+    via: teams query parameter
+  - from: ReportRequest
+    to: Campaign
+    type: has_many
+    via: 'dimensions ["Campaigns"] / dimensionFilters'
+  - from: ReportRequest
+    to: MediaPartner
+    type: has_many
+    via: dimensionFilters
+  - from: ReportRequest
+    to: Placement
+    type: has_many
+    via: dimensionFilters
+metric_families_documented:
+  - Summary
+  - Viewability
+  - Viewability Rendered
+  - Viewability Gross Net
+  - Viewability Gross Net Impressions
+  - Viewability Distribution
+  - Failure Reasons
+  - Quality Impressions
+  - Brand Safety
+  - Risk Categories
+  - Invalid Traffic
+  - Invalid Traffic By Type
+  - Video Quartiles
+  - Carbon Emissions
+  - Site Quality
+  - Video Summary
+  - Blocking
+gaps:
+  - No JSON Schema or OpenAPI components are published, so no field types beyond
+    those IAS states in prose can be recorded.
+  - The full metric and dimension vocabularies live in the IAS Signal help
+    center behind a customer login and are not machine-readable.

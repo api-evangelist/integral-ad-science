@@ -1,0 +1,158 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://trust.integralads.com/en-US/security,
+  https://trust.integralads.com/en-US/compliance,
+  https://web.archive.org/web/20241015182444/https://helpcenter.integralplatform.com/article/reporting-api,
+  https://docs.prebid.org/dev-docs/modules/iasRtdProvider.html, and live probes
+  of https://data.integralplatform.com — all 2026-08-12
+note: >-
+  Conformance assertions for Integral Ad Science. Ad verification is governed by
+  measurement-accreditation bodies (MRC) and ad-tech interoperability
+  specifications (IAB Tech Lab OM SDK, VAST, Prebid) rather than by the API
+  standards this catalogue usually reads, so both families are recorded. Every
+  `conforms: false` below is a checked absence, not an unchecked field.
+standards:
+  - id: oauth2
+    name: OAuth 2.0 (RFC 6749)
+    conforms: true
+    evidence: >-
+      IAS documents the Resource Owner Password Credentials grant against
+      https://data.integralplatform.com/auth/uaa/oauth/token with HTTP Basic
+      client authentication and an access_token response field; the resource
+      server returns the RFC 6749 §5.2 error code `invalid_token` with an
+      `Access token expired` description, observed live 2026-08-12.
+    source: https://helpcenter.integralplatform.com/article/reporting-api
+  - id: rfc9700
+    name: OAuth 2.0 Security Best Current Practice
+    conforms: false
+    evidence: >-
+      The password grant is the only documented flow. RFC 9700 (and OAuth 2.1)
+      remove it; IAS documents no authorization-code, client-credentials or PKCE
+      alternative and no refresh-token handling.
+  - id: oauth2-discovery
+    name: OAuth 2.0 Authorization Server Metadata (RFC 8414)
+    conforms: false
+    evidence: >-
+      https://data.integralplatform.com/.well-known/oauth-authorization-server
+      returned 404 (probed 2026-08-12). The authorization server is not
+      machine-discoverable.
+  - id: oidc
+    name: OpenID Connect Discovery
+    conforms: false
+    evidence: /.well-known/openid-configuration 404 on every IAS host probed.
+  - id: rfc9457
+    name: Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      No application/problem+json anywhere in the documented surface; the only
+      observable error body is a plain-text "invalid_token: Access token
+      expired".
+  - id: rfc9116
+    name: security.txt
+    conforms: false
+    evidence: /.well-known/security.txt 404 or 400 on all five IAS hosts probed.
+  - id: rfc8594
+    name: Sunset / Deprecation HTTP headers
+    conforms: false
+    evidence: No Sunset or Deprecation header observed; no deprecation policy
+      published.
+  - id: idempotency
+    name: Idempotent request keys
+    conforms: false
+    evidence: >-
+      No idempotency header or replay semantics documented; POST /report creates
+      a new job on every call.
+  - id: pagination
+    name: Paged collections
+    conforms: false
+    evidence: >-
+      No cursor, offset, limit or Link header on any documented operation;
+      dimension lookups return unbounded arrays.
+  - id: openapi
+    name: OpenAPI Specification
+    conforms: false
+    evidence: >-
+      No OpenAPI or Swagger document is served on any IAS host. Probed
+      /openapi.json, /openapi.yaml, /swagger.json, /v1|/v2/openapi.json,
+      /api-docs, /docs and /redoc against integralads.com,
+      api.integralplatform.com, data.integralplatform.com,
+      reporting.integralplatform.com and helpcenter.integralplatform.com on
+      2026-08-12 — every real result was a 404, a 302 to /spa/login, or a
+      single-page-app HTML shell served with a 200.
+  - id: asyncapi
+    name: AsyncAPI
+    conforms: false
+    evidence: >-
+      IAS ships no event/webhook surface. The closest published asynchronous
+      delivery is the IP Suspicious Activity Detection Process, which drops an
+      hourly invalid-traffic IP list into a partner-owned AWS S3 bucket — a file
+      feed, not an event API.
+  - id: mcp
+    name: Model Context Protocol
+    conforms: false
+    evidence: >-
+      No hosted MCP endpoint found. Note that IAS markets a product called "IAS
+      Agent" (https://integralads.com/ias-agent/) — it is an in-product
+      generative-AI assistant for campaign insights, not an agent-callable
+      protocol surface, and it exposes no tools/list, no agent card and no
+      public endpoint.
+  - id: a2a
+    name: A2A Agent Card
+    conforms: false
+    evidence: >-
+      /.well-known/agent-card.json and the legacy /.well-known/agent.json both
+      404 on every IAS host. The 200s returned by integralplatform.com and
+      adsafeprotected.com are a single-page-app login shell and a 1x1 GIF
+      respectively, not agent cards.
+industry_standards:
+  - id: mrc
+    name: Media Rating Council accreditation
+    conforms: true
+    evidence: >-
+      IAS publishes a per-product MRC accreditation list covering tracked ads,
+      rendered impressions, viewability, property-level ad verification, SIVT
+      detection/filtration, SSAI video metrics and pre-bid viewability/IVT
+      across Display, Mobile Web, Mobile App and CTV, plus Facebook and Google
+      ADH (YouTube) specific accreditations.
+    source: https://trust.integralads.com/en-US/compliance
+  - id: iso27001
+    name: ISO/IEC 27001:2022
+    conforms: true
+    evidence: Certificate published as a public document in the IAS trust center.
+    source: https://trust.integralads.com/en-US/security
+  - id: soc2
+    name: SOC 2 Type 2
+    conforms: true
+    evidence: Annual third-party AICPA SOC 2 Type 2 assessment; report available
+      on request.
+    source: https://trust.integralads.com/en-US/security
+  - id: iab-openrtb-prebid
+    name: Prebid.js / OpenRTB header bidding
+    conforms: true
+    evidence: >-
+      IAS authors and maintains a Prebid Real-Time Data provider
+      (iasRtdProvider) and a Prebid bid adapter, both documented in the Prebid
+      community docs and shipped in the prebid.js package.
+    source: https://docs.prebid.org/dev-docs/modules/iasRtdProvider.html
+  - id: iab-om-sdk
+    name: IAB Tech Lab Open Measurement (OM SDK / OMID)
+    conforms: true
+    evidence: >-
+      IAS documents an OMID-for-Web implementation for VAST providers and ships
+      OM SDK based mobile measurement.
+    source: https://helpcenter.integralplatform.com/article/ias-omid-for-web-for-vast-providers-implementation
+  - id: iab-vast
+    name: IAB VAST / VPAID
+    conforms: true
+    evidence: >-
+      VAST-based CTV/OTT measurement certification process and a VAST/VPAID
+      wrapper offering are both documented; the org also published an
+      iab-vast-loader library (now archived).
+    source: https://helpcenter.integralplatform.com/article/video-vpaid-wrapper-implementation-guide
+compliance_published: true
+compliance_summary: >-
+  SOC 2 Type 2, ISO/IEC 27001:2022 and a broad MRC accreditation portfolio are
+  published with named scopes in a public trust center. API-standards
+  conformance is the opposite picture: no OpenAPI, no RFC 9457, no
+  discoverability documents, and an OAuth flow the current BCP deprecates.

@@ -1,0 +1,132 @@
+generated: '2026-08-12'
+method: probed
+source: live HTTP probes of every IAS host named in apis.yml
+note: >-
+  Every /.well-known/ path probed returned 404 (or 400) on every Integral Ad
+  Science host. No WellKnown or SecurityTxt pointer is emitted in apis.yml
+  because none of these paths returns a real document — this file records a
+  verified ABSENCE, not a presence. Two soft-200 traps were identified and are
+  recorded here so a later round does not re-credit them: integralplatform.com,
+  reporting.integralplatform.com and helpcenter.integralplatform.com answer
+  200 with the IAS Signal single-page-app login shell for arbitrary paths
+  (/openapi.json, /llms.txt, /.well-known/agent-card.json), and
+  adsafeprotected.com answers 200 with a 1x1 GIF tracking pixel for every path.
+  Neither is a document.
+hosts:
+  - host: https://integralads.com
+    catch_all: 404 HTML (WordPress 404 template)
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+  - host: https://data.integralplatform.com
+    catch_all: 404 application/json (real API host)
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+  - host: https://helpcenter.integralplatform.com
+    catch_all: 404 HTML (Next.js not-found shell)
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+  - host: https://reporting.integralplatform.com
+    catch_all: 404 application/json
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+  - host: https://trust.integralads.com
+    catch_all: '400 "Bad Request: Suspicious URL" (TrustArc-hosted)'
+    documents:
+      - path: /.well-known/security.txt
+        status: 400
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 400
+        file: null
+soft_200_false_positives:
+  - host: https://integralplatform.com
+    paths_returning_200_html_shell:
+      - /openapi.json
+      - /llms.txt
+      - /.well-known/security.txt
+      - /.well-known/agent-card.json
+    body: IAS Signal SPA login shell (data-release="0.1.69")
+  - host: https://reporting.integralplatform.com
+    paths_returning_200_html_shell:
+      - /openapi.json
+      - /llms.txt
+    body: IAS Signal SPA login shell
+  - host: https://adsafeprotected.com
+    paths_returning_200: all probed paths
+    body: 43-byte GIF89a tracking pixel
+summary:
+  hosts_probed: 5
+  documents_found: 0
+  agent_card_found: false
+  security_txt_found: false

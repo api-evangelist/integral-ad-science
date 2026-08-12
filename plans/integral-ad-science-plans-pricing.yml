@@ -1,0 +1,39 @@
+generated: '2026-08-12'
+method: searched
+source: https://integralads.com/ (site + sitemap sweep, probed 2026-08-12)
+plan_count: 0
+pricing_published: false
+pricing_url: null
+currency: null
+billing_periods: []
+plans: []
+note: >-
+  Integral Ad Science publishes no pricing page, no plan tiers, no rate card and
+  no self-serve sign-up. IAS is an enterprise ad-verification vendor sold through
+  a sales motion: every entry point on integralads.com routes to "Contact Us" or
+  a demo request, and platform access is provisioned by an IAS representative
+  who also issues the API client_id / client_secret. plan_count: 0 is the
+  measured, correct answer here — not a gap in this pass.
+evidence:
+  - url: https://integralads.com/pricing/
+    status: 404
+  - url: https://integralads.com/contact-us/
+    status: 200
+    note: the actual commercial entry point
+  - url: https://integralads.com/sitemap_index.xml
+    status: 200
+    note: no pricing, plans or rate-card page in any child sitemap
+  - url: https://helpcenter.integralplatform.com/topics/billing
+    status: 200
+    note: >-
+      A billing topic exists in the customer help center (invoices, billing
+      FAQs) but it documents how an existing contracted customer is invoiced,
+      not published prices; article bodies are login-gated.
+access_model:
+  pricing: enterprise
+  onboarding: sales
+  trial: false
+  self_serve: false
+  free_tier: false
+  api_credentials: issued by an IAS representative (no self-serve client
+    registration)

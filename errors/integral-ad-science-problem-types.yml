@@ -1,0 +1,94 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://web.archive.org/web/20241015182444/https://helpcenter.integralplatform.com/article/reporting-api
+  (IAS Help Center, "Reporting API", Jul 11, 2024) plus a live probe of
+  https://data.integralplatform.com/report on 2026-08-12
+format: vendor
+rfc9457: false
+note: >-
+  Integral Ad Science publishes no error reference, no error-code table and no
+  machine-readable specification, so this catalogue cannot be derived from
+  OpenAPI 4xx/5xx responses. It records only the two failure surfaces IAS
+  actually documents plus the one response observable without credentials. It is
+  deliberately short — an honest small catalogue, not an invented complete one.
+problem_types:
+  - id: invalid_token
+    http_status: 401
+    title: Access token expired
+    detail: 'invalid_token: Access token expired'
+    content_type: text/plain
+    envelope: 'plain-text "<error>: <error_description>" (Spring/UAA style)'
+    remediation: >-
+      Re-run the password grant against
+      https://data.integralplatform.com/auth/uaa/oauth/token and retry with the
+      new access_token. IAS documents token reuse until this error appears.
+    evidence:
+      documented: true
+      observed_live: '2026-08-12'
+      observed_url: https://data.integralplatform.com/report
+  - id: unauthenticated_redirect
+    http_status: 302
+    title: Redirect to IAS Signal login
+    detail: 'Location: /spa/login'
+    content_type: null
+    envelope: none (empty body)
+    remediation: >-
+      Send an Authorization bearer header. A request with no credentials is not
+      answered with a 401 challenge — it is redirected to the interactive login,
+      which an unattended agent must not follow.
+    evidence:
+      documented: false
+      observed_live: '2026-08-12'
+      observed_url: https://data.integralplatform.com/report
+  - id: report_error_state
+    http_status: 200
+    title: Report job failed
+    detail: 'Job-level failure surfaced in the polling body as { "status": "ERROR" }'
+    content_type: application/json
+    envelope: 'job status object { id, status }'
+    remediation: >-
+      Resubmit the report. IAS documents no reason code, no error message field
+      and no diagnostic on the ERROR state, so the caller cannot distinguish a
+      transient failure from a malformed request.
+    evidence:
+      documented: true
+      observed_live: false
+      note: >-
+        This is an in-band failure carried on a 200 response — a job that failed
+        is not signalled by an HTTP status code. Agents that branch on HTTP
+        status alone will treat a failed report as a success.
+  - id: report_no_results
+    http_status: 200
+    title: Report produced no rows
+    detail: '{ "status": "NO_RESULTS" }'
+    content_type: application/json
+    envelope: 'job status object { id, status }'
+    remediation: >-
+      Widen the date range, team set, or dimension filters. Distinct from ERROR:
+      the job succeeded and matched nothing.
+    evidence:
+      documented: true
+      observed_live: false
+  - id: team_authorization_failure
+    http_status: null
+    title: Report creation fails for teams the caller cannot access
+    detail: >-
+      "IAS only shows data for the requested team ID. If you attempt to get data
+      for teams you don't have access to, the report creation fails."
+    content_type: null
+    envelope: null
+    remediation: >-
+      Call GET /report-dimensions/teams first and submit only ids returned there.
+    evidence:
+      documented: true
+      observed_live: false
+      note: IAS documents the failure in prose but publishes neither the status
+        code nor the body it returns.
+gaps:
+  - No RFC 9457 application/problem+json anywhere in the documented surface.
+  - No 4xx/5xx catalogue for the report, report-status, report-download or
+    report-dimensions operations.
+  - No validation-error shape published for a malformed ReportRequest body.
+  - Job failure is carried in a 200 body, so HTTP status is not a sufficient
+    success signal.
