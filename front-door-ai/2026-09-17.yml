@@ -1,0 +1,26 @@
+# Front Door AI Index — integral-ad-science — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: integral-ad-science
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: integralads.com
+  final_host: integralads.com
+  ownership: own
+  owner: integral-ad-science
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 1
+  host_score: 1
+  density: 0.88
+  words: 1136
+  tiers:
+    agentic: 0
+    core: 1
+    model: 0
+  ambiguous: 3
+  top_terms:
+    agent: 3
+    AI: 1
