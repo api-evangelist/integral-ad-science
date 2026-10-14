@@ -1,6 +1,7 @@
 generated: '2026-10-14'
 method: searched
 checked:
+- https://storage.googleapis.com/tcfac/additional-consent-providers.csv
 - https://vendor-list.consensu.org/v3/vendor-list.json
 marketplace_apps: []
 edges:
@@ -30,6 +31,29 @@ edges:
     - special-purpose-2
     - special-purpose-3
     api_families_basis: TCF purposes, special purposes, features and special features declared on the registration
+    detected_by: sweep-adtech.py
+    detected: '2026-10-14'
+  detected_by: sweep-adtech.py
+  detected: '2026-10-14'
+- partner_name: Google Ad Tech Providers
+  partner: null
+  partner_match: domain+verified
+  type: contract
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://storage.googleapis.com/tcfac/additional-consent-providers.csv
+  contract_reference:
+    register: Google Ad Tech Providers (Additional Consent)
+    spec_file: null
+    role: google-atp
+    registered_name: Amino Payments, Inc.
+    register_id: '2670'
+    products:
+    - Amino Payments, Inc.
+    matched_domain: integralads.com
+    api_families: null
+    api_families_basis: null
     detected_by: sweep-adtech.py
     detected: '2026-10-14'
   detected_by: sweep-adtech.py
