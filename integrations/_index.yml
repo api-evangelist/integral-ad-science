@@ -80,5 +80,5 @@
     - connectors/applications/integral-ad-science
     vendor_link: https://integralads.com/
     builder: Fivetran
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
