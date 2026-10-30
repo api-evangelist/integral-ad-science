@@ -1,4 +1,4 @@
-# integral-ad-science
+# Integral Ad Science
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,4 +64,103 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Integral Ad Science (IAS) — global ad verification and measurement (NASDAQ: IAS)
+Integral Ad Science (NASDAQ: IAS) is a New York-based global ad verification and digital media measurement company. IAS provides technology and data that measures the quality, viewability, ad fraud, brand safety and suitability, contextual targeting, and attention performance of digital advertising across CTV and video, the open web, social platforms, mobile and in-app, and digital audio. Its products serve advertisers and agencies, publishers, and ad-tech platforms with proprietary capabilities including Quality Impressions, Total Visibility, Total Media Quality, Context Control, and the IAS Agent platform for generative-AI-era brand safety. IAS does operate a documented REST API estate on data.integralplatform.com — the Reporting API (viewability, fraud and brand safety metrics as asynchronous CSV report jobs), Segment API, Custom Segment Retrieval, Partner Measurement, Multimedia Classification, Gaming, ADmantX semantic analysis, Auto Tag Light and Automated Tagging — but it publishes no OpenAPI specification, no self-serve credentials and, since 2025, no publicly readable API reference: the IAS Developers Center and every developer article now render only for logged-in IAS Signal customers. Authentication is OAuth 2.0 password grant with client credentials issued by an IAS representative. Customer access to IAS data and measurement is otherwise delivered through enterprise integrations with DSPs, SSPs, ad servers, social platforms, and walled gardens, plus the IAS Signal reporting platform, header-bidding modules (Prebid IAS RTD provider and bidder adapter), and partner connectors such as the Salesforce Marketing Cloud Intelligence (Datorama) IAS connector. The company's GitHub organization (github.com/integralads) is primarily internal tooling, forks, and ad-tech ecosystem contributions rather than a documented developer SDK surface.
+
+**Areas:** Advertising · Ad Verification · Ad Measurement · Brand Safety · Ad Fraud · Viewability · Contextual Targeting · Attention Measurement · CTV · Connected TV · Video Advertising · Programmatic
+
+## Integral Ad Science on APIs.io
+
+Everything profiled for Integral Ad Science is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/integral-ad-science/](https://apis.io/providers/integral-ad-science/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [IAS Reporting API](https://apis.io/apis/integral-ad-science/ias-reporting-api/) — RESTful API that exposes IAS viewability, fraud and brand safety metrics for a customer's own business applications. Job-oriented: POST /report submits a…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Integral Ad Science Authentication](https://apis.io/security/integral-ad-science/integral-ad-science-authentication/)
+- [Integral Ad Science Domain Security](https://apis.io/security/integral-ad-science/integral-ad-science-domain-security/)
+- [Integral Ad Science Trust Center](https://apis.io/security/integral-ad-science/integral-ad-science-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Integral Ad Science Plans Pricing](https://apis.io/plans/integral-ad-science/integral-ad-science-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Integral Ad Science Rate Limits](https://apis.io/rate-limits/integral-ad-science/integral-ad-science-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://integralads.com)
+- [Support](https://helpcenter.integralplatform.com/)
+- [Blog](https://integralads.com/insider/)
+- [Trust centre](https://trust.integralads.com/en-US/home)
+- [Terms of service](https://integralads.com/ias-legal-portal/ias-signal-platform-authorized-user-terms-of-service/)
+- [Privacy policy](https://integralads.com/ias-privacy-data-management/policies/privacy-policy/)
+- [GitHub](https://github.com/integralads)
+
+## API Evangelist rating
+
+**Kin Score 28.1** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 74.1 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 38.1 |
+| Access clarity | 35.5 |
+
+**Agent readiness 7.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/integral-ad-science/](https://apis.io/providers/integral-ad-science/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Integral Ad Science: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/integral-ad-science/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
